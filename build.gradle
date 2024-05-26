@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:5.0.0-beta.24'
+    implementation 'org.slf4j:slf4j-simple:2.0.13'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'org.yaml:snakeyaml:2.2'
+    implementation('com.mysql:mysql-connector-j:8.1.0') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    destinationDirectory = file(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "JarOutput" + File.separator + "NexusReborn")
+}
+
+tasks.jar.finalizedBy(shadowJar)
+
+application {
+    mainClass = 'com.thenexusreborn.discordbot.NexusBot'
+}
