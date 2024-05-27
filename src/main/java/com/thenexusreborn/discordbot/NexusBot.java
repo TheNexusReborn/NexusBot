@@ -78,7 +78,6 @@ public class NexusBot {
     }
 
     public static void cancelSocket() {
-        LOGGER.info("Cancelling Socket");
         scheduledFuture.cancel(true);
     }
 }

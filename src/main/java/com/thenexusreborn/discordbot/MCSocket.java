@@ -60,7 +60,6 @@ public class MCSocket implements Runnable {
             try {
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println("Received: " + inputLine);
                     if (inputLine.equals("exit")) {
                         break;
                     } else if (inputLine.startsWith("linksuccess")) {
@@ -97,15 +96,12 @@ public class MCSocket implements Runnable {
 
     public class SocketSender implements Runnable {
         public void run() {
-            NexusBot.LOGGER.info("Processing Messages");
             if (messages.isEmpty()) {
-                NexusBot.LOGGER.info("No messages to process, sending heartbeat");
                 out.println("heartbeat");
                 out.flush();
                 return;
             }
             
-            NexusBot.LOGGER.info("Sending first message in queue");
             out.println(messages.poll());
             out.flush();
         }
