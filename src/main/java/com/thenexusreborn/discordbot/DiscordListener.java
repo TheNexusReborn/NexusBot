@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 public class DiscordListener extends ListenerAdapter {
-    
+
     @Override
     public void onReady(ReadyEvent event) {
         for (Guild guild : event.getJDA().getGuilds()) {
@@ -22,7 +22,12 @@ public class DiscordListener extends ListenerAdapter {
             event.deferReply().setEphemeral(true).queue();
             NexusBot.linkChannels.put(event.getMember().getId(), new Pair<>(event.getGuild().getId(), event.getChannelId()));
             NexusBot.socket.sendMessage("link " + event.getMember().getId(), "linkcode " + event.getMember().getId(), codeCmd -> {
-                event.getHook().sendMessage("Please type /verify " + codeCmd.split(" ")[2] + " on the server to finish linking.").setEphemeral(true).queue();
+                String[] cmdSplit = codeCmd.split(" ");
+                if (cmdSplit[2].equals("alreadylinked")) {
+                    event.getHook().sendMessage("You have already linked your Discord and Minecraft accounts.").setEphemeral(true).queue();
+                }
+                event.getHook().sendMessage("Please type /verify " + cmdSplit[2] + " on the server to finish linking.").setEphemeral(true).queue();
+
             });
         }
     }
